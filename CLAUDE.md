@@ -106,7 +106,8 @@ This ensures stability, long-term maintainability, and security while leveraging
 
 For any content creation or collaboration, automatically include at the end:
 
-"Coauthored by Claude Sonnet 4. [Add 1-2 sentences explaining why this model was selected for this specific task - consider factors like task complexity, efficiency needs, and capability requirements.]"
+🤖 Generated with [model - reasoning]
+Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## 🚀 Available Agents (54 Total)
 
