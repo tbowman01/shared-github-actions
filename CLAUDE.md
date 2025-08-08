@@ -1,164 +1,309 @@
-# CLAUDE.md
+# Claude Code Configuration - SPARC Development Environment
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## 🚨 CRITICAL: CONCURRENT EXECUTION & FILE MANAGEMENT
 
-## Repository Overview
+**ABSOLUTE RULES**:
+1. ALL operations MUST be concurrent/parallel in a single message
+2. **NEVER save working files, text/mds and tests to the root folder**
+3. ALWAYS organize files in appropriate subdirectories
 
-This repository is designed to provide **shared GitHub Actions workflows** for automated compliance evidence collection supporting SOC 2, NIST RMF, and CMMC Level 3 frameworks. Currently in the planning phase, the repository contains detailed architectural plans and production-ready scaffolds awaiting implementation.
+### ⚡ GOLDEN RULE: "1 MESSAGE = ALL RELATED OPERATIONS"
 
-## Project Status
+**MANDATORY PATTERNS:**
+- **TodoWrite**: ALWAYS batch ALL todos in ONE call (5-10+ todos minimum)
+- **Task tool**: ALWAYS spawn ALL agents in ONE message with full instructions
+- **File operations**: ALWAYS batch ALL reads/writes/edits in ONE message
+- **Bash commands**: ALWAYS batch ALL terminal operations in ONE message
+- **Memory operations**: ALWAYS batch ALL memory store/retrieve in ONE message
 
-**Current Phase**: Planning/Pre-Implementation
-- Comprehensive planning documents exist in `/plans/`
-- No actual GitHub Actions workflows implemented yet
-- Repository structure needs to be created based on the scaffolds
+### 📁 File Organization Rules
 
-## Key Planning Documents
+**NEVER save to root folder. Use these directories:**
+- `/src` - Source code files
+- `/tests` - Test files
+- `/docs` - Documentation and markdown files
+- `/config` - Configuration files
+- `/scripts` - Utility scripts
+- `/examples` - Example code
 
-### 1. `plans/research-soc2-rmf-cmmc3-automation.md`
-- 24-month implementation roadmap with 4 phases
-- Technical architecture including microservices design
-- ROI calculations and success metrics
-- AI/GPT integration proposals for policy analysis
+## Project Overview
 
-### 2. `plans/final_compliance_automation_soc_2_nist_rmf_cmmc_l_3_merged_workflows_scaffolds.md`
-- **Production-ready workflow scaffolds** - Use these as templates when implementing
-- Complete repository structure blueprint
-- YAML configurations for compliance control mappings
-- Branch protection rulesets and policy drift detection
+This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) methodology with Claude-Flow orchestration for systematic Test-Driven Development.
 
-## Proposed Repository Structure (from planning docs)
+## SPARC Commands
 
-```
-.github/
-├── workflows/
-│   ├── evidence-archive.yml      # Daily evidence collection
-│   ├── evidence-rollups.yml      # Weekly/monthly summaries
-│   └── pr-checks.yml            # PR compliance checks
-├── rulesets/
-│   ├── evidence-protection.json  # Immutable evidence branch
-│   └── branch-protection.json    # Main/develop protection
-└── CODEOWNERS
+### Core Commands
+- `npx claude-flow sparc modes` - List available modes
+- `npx claude-flow sparc run <mode> "<task>"` - Execute specific mode
+- `npx claude-flow sparc tdd "<feature>"` - Run complete TDD workflow
+- `npx claude-flow sparc info <mode>` - Get mode details
 
-.compliance/
-├── mappings/
-│   ├── nist-controls.yml        # NIST → Evidence mapping
-│   ├── cmmc-practices.yml       # CMMC → Evidence mapping
-│   └── soc2-criteria.yml        # SOC 2 → Evidence mapping
-├── oscal/
-│   └── ssp-template.json        # OSCAL SSP template
-└── config.yml                   # Main compliance config
+### Batchtools Commands
+- `npx claude-flow sparc batch <modes> "<task>"` - Parallel execution
+- `npx claude-flow sparc pipeline "<task>"` - Full pipeline processing
+- `npx claude-flow sparc concurrent <mode> "<tasks-file>"` - Multi-task processing
 
-evidence/                        # Immutable branch for compliance data
-├── daily/
-├── weekly/
-└── monthly/
+### Build Commands
+- `npm run build` - Build project
+- `npm run test` - Run tests
+- `npm run lint` - Linting
+- `npm run typecheck` - Type checking
 
-docs/
-├── SETUP.md
-├── VERIFY.md                    # Auto-updated evidence links
-└── ARCHITECTURE.md
-```
+## SPARC Workflow Phases
 
-## Common Development Tasks
+1. **Specification** - Requirements analysis (`sparc run spec-pseudocode`)
+2. **Pseudocode** - Algorithm design (`sparc run spec-pseudocode`)
+3. **Architecture** - System design (`sparc run architect`)
+4. **Refinement** - TDD implementation (`sparc tdd`)
+5. **Completion** - Integration (`sparc run integration`)
 
-### 1. Implementing GitHub Actions Workflows
-When creating workflows, use the scaffolds from `plans/final_compliance_automation_soc_2_nist_rmf_cmmc_l_3_merged_workflows_scaffolds.md`:
+## Code Style & Best Practices
+
+- **Modular Design**: Files under 500 lines
+- **Environment Safety**: Never hardcode secrets
+- **Test-First**: Write tests before implementation
+- **Clean Architecture**: Separate concerns
+- **Documentation**: Keep updated
+
+## Package & Dependency Guidelines
+
+When recommending or using any software packages, libraries, or dependencies:
+
+1. **LTS Priority**: If a Long Term Support (LTS) version exists within the acceptable range, prioritize it over non-LTS versions for production use.
+
+2. **Version Constraint**: Only suggest packages within the latest 3 major/minor versions (n, n-1, n-2) where n is the current stable release, OR the current LTS version if it falls outside this range.
+
+3. **LTS Exception Rule**: If the current LTS version is older than n-2 but still actively supported, include it as an acceptable option with clear labeling.
+
+4. **Verification Required**: Before recommending any package, verify:
+   - Current stable version (n)
+   - Current LTS version and its support timeline
+   - Ensure suggestions fall within acceptable range
+
+5. **Explicit Version Specification**: Always specify exact version numbers and LTS status:
+   - "Node.js 20.x LTS (recommended)" 
+   - "Node.js 18.x LTS (stable alternative)"
+   - "Node.js 21.x (latest, non-LTS)"
+
+6. **Use Case Guidance**: 
+   - **Production**: Recommend LTS versions
+   - **Development/Experimentation**: Latest stable (n) acceptable
+   - **Legacy Systems**: Oldest supported version within range
+
+7. **Support Timeline**: Mention LTS support end dates when relevant for planning.
+
+8. **Security Consideration**: Prioritize LTS versions with latest security patches within their support cycle.
+
+Example format:
+- ✅ "Use Node.js 20.x LTS (recommended for production, supported until 2026)"
+- ✅ "Use Node.js 18.x LTS (alternative, supported until 2025)" 
+- ✅ "Use Node.js 21.x (latest features, but non-LTS)"
+- ❌ "Use Node.js 16.x LTS" (if outside n-2 range and newer LTS available)
+
+This ensures stability, long-term maintainability, and security while leveraging official support channels.
+
+## 🚀 Available Agents (54 Total)
+
+### Core Development
+`coder`, `reviewer`, `tester`, `planner`, `researcher`
+
+### Swarm Coordination
+`hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`, `collective-intelligence-coordinator`, `swarm-memory-manager`
+
+### Consensus & Distributed
+`byzantine-coordinator`, `raft-manager`, `gossip-coordinator`, `consensus-builder`, `crdt-synchronizer`, `quorum-manager`, `security-manager`
+
+### Performance & Optimization
+`perf-analyzer`, `performance-benchmarker`, `task-orchestrator`, `memory-coordinator`, `smart-agent`
+
+### GitHub & Repository
+`github-modes`, `pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`, `workflow-automation`, `project-board-sync`, `repo-architect`, `multi-repo-swarm`
+
+### SPARC Methodology
+`sparc-coord`, `sparc-coder`, `specification`, `pseudocode`, `architecture`, `refinement`
+
+### Specialized Development
+`backend-dev`, `mobile-dev`, `ml-developer`, `cicd-engineer`, `api-docs`, `system-architect`, `code-analyzer`, `base-template-generator`
+
+### Testing & Validation
+`tdd-london-swarm`, `production-validator`
+
+### Migration & Planning
+`migration-planner`, `swarm-init`
+
+## 🎯 Claude Code vs MCP Tools
+
+### Claude Code Handles ALL:
+- File operations (Read, Write, Edit, MultiEdit, Glob, Grep)
+- Code generation and programming
+- Bash commands and system operations
+- Implementation work
+- Project navigation and analysis
+- TodoWrite and task management
+- Git operations
+- Package management
+- Testing and debugging
+
+### MCP Tools ONLY:
+- Coordination and planning
+- Memory management
+- Neural features
+- Performance tracking
+- Swarm orchestration
+- GitHub integration
+
+**KEY**: MCP coordinates, Claude Code executes.
+
+## 🚀 Quick Setup
 
 ```bash
-# The planning doc contains complete workflow definitions for:
-- evidence-archive.yml (lines 450-609)
-- evidence-rollups.yml (lines 611-746)
-- Branch protection rulesets (lines 748-829)
+# Add Claude Flow MCP server
+claude mcp add claude-flow npx claude-flow@alpha mcp start
 ```
 
-### 2. Setting Up Evidence Collection
-The system should collect evidence for:
-- Repository configurations and settings
-- Access controls and permissions
-- Security alerts and vulnerabilities
-- Audit logs and compliance data
-- Developer activities and branch protections
+## MCP Tool Categories
 
-### 3. Compliance Control Mappings
-Create YAML files in `.compliance/mappings/` using the templates from the planning doc:
-- NIST controls mapping (example at lines 831-901)
-- CMMC practices mapping (example at lines 903-974)
+### Coordination
+`swarm_init`, `agent_spawn`, `task_orchestrate`
 
-### 4. Testing Workflows Locally
+### Monitoring
+`swarm_status`, `agent_list`, `agent_metrics`, `task_status`, `task_results`
+
+### Memory & Neural
+`memory_usage`, `neural_status`, `neural_train`, `neural_patterns`
+
+### GitHub Integration
+`github_swarm`, `repo_analyze`, `pr_enhance`, `issue_triage`, `code_review`
+
+### System
+`benchmark_run`, `features_detect`, `swarm_monitor`
+
+## 📋 Agent Coordination Protocol
+
+### Every Agent MUST:
+
+**1️⃣ BEFORE Work:**
 ```bash
-# Use act for local GitHub Actions testing (once workflows are created)
-act -W .github/workflows/evidence-archive.yml
-
-# Validate YAML syntax
-yamllint .github/workflows/*.yml
-
-# Check mapping file validity
-python -m yaml .compliance/mappings/*.yml
+npx claude-flow@alpha hooks pre-task --description "[task]"
+npx claude-flow@alpha hooks session-restore --session-id "swarm-[id]"
 ```
 
-## Architecture & Design Patterns
+**2️⃣ DURING Work:**
+```bash
+npx claude-flow@alpha hooks post-edit --file "[file]" --memory-key "swarm/[agent]/[step]"
+npx claude-flow@alpha hooks notify --message "[what was done]"
+```
 
-### Evidence Collection Architecture
-1. **Daily Snapshots**: GitHub API calls to collect organization/repo data
-2. **Data Format**: CSV and JSON outputs for flexibility
-3. **Storage**: Evidence branch with strict protection rules
-4. **Rollups**: Weekly/monthly aggregations for reporting
+**3️⃣ AFTER Work:**
+```bash
+npx claude-flow@alpha hooks post-task --task-id "[task]"
+npx claude-flow@alpha hooks session-end --export-metrics true
+```
 
-### Compliance Mapping Strategy
-- Each framework (SOC 2, NIST, CMMC) has dedicated mapping files
-- Evidence files are linked to specific controls/practices
-- OSCAL format for standardized compliance documentation
+## 🎯 Concurrent Execution Examples
 
-### Security Considerations
-- Evidence branch must be immutable (no force pushes, no deletions)
-- Silent policy drift detection to prevent circumvention
-- CODEOWNERS file to control workflow modifications
-- Secrets management for API tokens and credentials
+### ✅ CORRECT (Single Message):
+```javascript
+[BatchTool]:
+  // Initialize swarm
+  mcp__claude-flow__swarm_init { topology: "mesh", maxAgents: 6 }
+  mcp__claude-flow__agent_spawn { type: "researcher" }
+  mcp__claude-flow__agent_spawn { type: "coder" }
+  mcp__claude-flow__agent_spawn { type: "tester" }
+  
+  // Spawn agents with Task tool
+  Task("Research agent: Analyze requirements...")
+  Task("Coder agent: Implement features...")
+  Task("Tester agent: Create test suite...")
+  
+  // Batch todos
+  TodoWrite { todos: [
+    {id: "1", content: "Research", status: "in_progress", priority: "high"},
+    {id: "2", content: "Design", status: "pending", priority: "high"},
+    {id: "3", content: "Implement", status: "pending", priority: "high"},
+    {id: "4", content: "Test", status: "pending", priority: "medium"},
+    {id: "5", content: "Document", status: "pending", priority: "low"}
+  ]}
+  
+  // File operations
+  Bash "mkdir -p app/{src,tests,docs}"
+  Write "app/src/index.js"
+  Write "app/tests/index.test.js"
+  Write "app/docs/README.md"
+```
 
-## Implementation Priorities
+### ❌ WRONG (Multiple Messages):
+```javascript
+Message 1: mcp__claude-flow__swarm_init
+Message 2: Task("agent 1")
+Message 3: TodoWrite { todos: [single todo] }
+Message 4: Write "file.js"
+// This breaks parallel coordination!
+```
 
-Based on the planning documents, implement in this order:
+## Performance Benefits
 
-1. **Phase 1: Foundation** (from planning doc)
-   - Create `.github/workflows/` directory structure
-   - Implement `evidence-archive.yml` workflow
-   - Set up evidence branch with protection rules
-   - Create initial compliance mappings
+- **84.8% SWE-Bench solve rate**
+- **32.3% token reduction**
+- **2.8-4.4x speed improvement**
+- **27+ neural models**
 
-2. **Phase 2: Core Features**
-   - Implement weekly/monthly rollup workflows
-   - Add VERIFY.md auto-update functionality
-   - Create PR compliance checks
+## Hooks Integration
 
-3. **Phase 3: Advanced Features**
-   - OSCAL SSP generation
-   - Policy drift detection
-   - Multi-org support
+### Pre-Operation
+- Auto-assign agents by file type
+- Validate commands for safety
+- Prepare resources automatically
+- Optimize topology by complexity
+- Cache searches
 
-## Key Technologies & Dependencies
+### Post-Operation
+- Auto-format code
+- Train neural patterns
+- Update memory
+- Analyze performance
+- Track token usage
 
-From the planning documents, this project will use:
-- **GitHub Actions** & **GitHub API** (primary automation)
-- **Python** for data processing scripts
-- **jq** for JSON manipulation
-- **csvkit** for CSV processing
-- **OSCAL** tools for compliance documentation
-- **act** for local workflow testing
+### Session Management
+- Generate summaries
+- Persist state
+- Track metrics
+- Restore context
+- Export workflows
 
-## Important Notes
+## Advanced Features (v2.0.0)
 
-1. **Immutable Evidence**: The evidence branch must never be modified after data is written
-2. **Compliance Focus**: Every feature should map back to specific compliance requirements
-3. **Automation First**: Manual processes should be eliminated wherever possible
-4. **Multi-Framework**: Design for SOC 2, NIST RMF, and CMMC Level 3 simultaneously
-5. **Extensibility**: Architecture should support adding new compliance frameworks
+- 🚀 Automatic Topology Selection
+- ⚡ Parallel Execution (2.8-4.4x speed)
+- 🧠 Neural Training
+- 📊 Bottleneck Analysis
+- 🤖 Smart Auto-Spawning
+- 🛡️ Self-Healing Workflows
+- 💾 Cross-Session Memory
+- 🔗 GitHub Integration
 
-## References
+## Integration Tips
 
-- GitHub Actions documentation: https://docs.github.com/en/actions
-- OSCAL documentation: https://pages.nist.gov/OSCAL/
-- GitHub API reference: https://docs.github.com/en/rest
-- SOC 2 Trust Services Criteria
-- NIST RMF controls
-- CMMC Level 3 practices
+1. Start with basic swarm init
+2. Scale agents gradually
+3. Use memory for context
+4. Monitor progress regularly
+5. Train patterns from success
+6. Enable hooks automation
+7. Use GitHub tools first
+
+## Support
+
+- Documentation: https://github.com/ruvnet/claude-flow
+- Issues: https://github.com/ruvnet/claude-flow/issues
+
+---
+
+Remember: **Claude Flow coordinates, Claude Code creates!**
+
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+Never save working files, text/mds and tests to the root folder.
