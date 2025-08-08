@@ -1,0 +1,54 @@
+name: 'Hello World'
+description: 'A simple Hello World action to demonstrate the shared actions infrastructure'
+author: 'Shared GitHub Actions Team'
+
+inputs:
+  name:
+    description: 'Name to greet'
+    required: true
+    default: 'World'
+  greeting:
+    description: 'Greeting to use'
+    required: false
+    default: 'Hello'
+
+outputs:
+  message:
+    description: 'The greeting message'
+    value: ${{ steps.hello.outputs.message }}
+  timestamp:
+    description: 'When the greeting was generated'
+    value: ${{ steps.hello.outputs.timestamp }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Generate greeting
+      id: hello
+      shell: bash
+      run: |
+        MESSAGE="${{ inputs.greeting }}, ${{ inputs.name }}!"
+        TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+        
+        echo "message=$MESSAGE" >> $GITHUB_OUTPUT
+        echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+        
+        echo "🎉 $MESSAGE"
+        echo "⏰ Generated at: $TIMESTAMP"
+        
+        # Demonstrate Claude-Flow integration
+        echo "🧠 Powered by Claude-Flow SPARC framework"
+        echo "🤖 Shared GitHub Actions v1.0.0"
+
+    - name: Validate output
+      shell: bash
+      run: |
+        if [[ -z "${{ steps.hello.outputs.message }}" ]]; then
+          echo "❌ Error: Message output is empty"
+          exit 1
+        fi
+        echo "✅ Hello World action completed successfully"
+
+branding:
+  icon: 'heart'
+  color: 'blue'
